@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:componentes2/src/pages/slider_page.dart';
 import 'package:componentes2/src/pages/animated_container.dart';
 import 'package:componentes2/src/pages/card_page.dart';
 import 'package:componentes2/src/pages/alert_page.dart';
 import 'package:componentes2/src/pages/avatar_page.dart';
 import 'package:componentes2/src/pages/home_page.dart';
 import 'package:componentes2/src/pages/input_page.dart';
+import 'package:componentes2/src/pages/list_builder_page.dart';
 
 //Creo mi metodo que me devuelve mis lista de rutas, de esta forma es mucha mas dinamico y
 //modularizado
@@ -16,6 +18,8 @@ Map<String, WidgetBuilder> getRoutesAplication() {
     "avatar": (context) => AvatarPage(),
     "card": (BuildContext context) => CardPage(),
     "animatedContainer": (context) => AnimatedContainerPage(),
-    "inputs": (context) => InputPage()
+    "inputs": (context) => InputPage(),
+    "slider": (context) => SliderPage(),
+    "list": (context) => ListBuilderPage()
   };
 }
