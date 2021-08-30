@@ -50,40 +50,54 @@ class _ListBuilderPageState extends State<ListBuilderPage> {
     );
   }
 
-  ListView _createListBuilder() {
-    return ListView.separated(
-      //Cantidad de items que habra en nuestra lista
-      padding: const EdgeInsets.all(8),
-      controller: _scrollController,
-      itemCount: _listNumbers.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: Center(
-              child: Column(
-            children: <Widget>[
-              Container(
-                clipBehavior: Clip.antiAlias,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                child: FadeInImage(
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage("assets/jar-loading.gif"),
-                  image: NetworkImage(
-                      "https://picsum.photos/300/300?random=$index"),
+  Widget _createListBuilder() {
+    return RefreshIndicator(
+      onRefresh: getPageReset,
+      child: ListView.builder(
+        //Cantidad de items que habra en nuestra lista
+        padding: const EdgeInsets.all(8),
+        controller: _scrollController,
+        itemCount: _listNumbers.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            child: Center(
+                child: Column(
+              children: <Widget>[
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    placeholder: AssetImage("assets/jar-loading.gif"),
+                    image: NetworkImage(
+                        "https://picsum.photos/300/300?random=$index"),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              )
-            ],
-          )),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => const Divider(
-        color: Colors.amber,
-        height: 30.0,
+                SizedBox(
+                  height: 10,
+                )
+              ],
+            )),
+          );
+        },
+        // separatorBuilder: (BuildContext context, int index) => Divider(
+        //   color: Colors.amber,
+        // ),
       ),
     );
+  }
+
+  Future<void> getPageReset() async {
+    //Este future nos servira para recargar nuevas imagenes.
+    var duration = Duration(seconds: 2);
+    new Timer(duration, () {
+      _listNumbers.clear();
+      _lastItem++;
+      _add10();
+    });
+
+    return await Future.delayed(duration);
   }
 
   void _add10() {
@@ -101,7 +115,7 @@ class _ListBuilderPageState extends State<ListBuilderPage> {
     //Servira para actualizar el dom de forma automatica, redibujandose de esa forma el widget
     setState(() {});
 
-    //Es parecido al setTime de javaScript
+    //Es parecido al setTime de javaScript, esto servira para cargar nuevs imagenes
     return new Timer(Duration(seconds: 1), _httpResponse);
   }
 
